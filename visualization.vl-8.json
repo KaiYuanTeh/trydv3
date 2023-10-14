@@ -1,0 +1,132 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 450,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/KaiYuanTeh/DataVisualisation2/main/Data/BMI%20and%20Schooling.csv"
+  },
+  "params": [
+    {
+      "name": "Year_Selection",
+      "value": 2000,
+      "bind": {
+        "input": "range",
+        "min": 2000,
+        "max": 2015,
+        "step": 1,
+        "name": "Year: "
+      }
+    },
+    {
+      "name": "Continent_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "North America",
+          "South America",
+          "Europe",
+          "Africa",
+          "Asia",
+          "Oceania"
+        ],
+        "labels": [
+          "Show All",
+          "North America",
+          "South America",
+          "Europe",
+          "Africa",
+          "Asia",
+          "Oceania"
+        ],
+        "name": "Continent Selection: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Year == Year_Selection"},
+    {
+      "filter": "Continent_selection == null || datum.continent == Continent_selection"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "Schooling",
+      "type": "quantitative",
+      "axis": {"tickCount": 5},
+      "title": "Schooling (years)",
+      "scale": {"domain": [0, 22]}
+    },
+    "y": {
+      "field": "BMI",
+      "type": "quantitative",
+      "axis": {"tickCount": 5},
+      "title": "BMI",
+      "scale": {"domain": [0, 80]}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "point", "size": 100, "filled": true},
+      "encoding": {
+        "color": {
+          "field": "continent",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "North America",
+              "South America",
+              "Europe",
+              "Africa",
+              "Asia",
+              "Oceania"
+            ],
+            "range": [
+              "#e41a1c",
+              "#984ea3",
+              "#ff7f00",
+              "#a6cee3",
+              "#377eb8",
+              "#a65628"
+            ]
+          }
+        },
+        "opacity": {"value": 0.6},
+        "tooltip": [
+          {"field": "Country", "type": "nominal", "title": "Country"},
+          {"field": "BMI", "type": "quantitative"},
+          {"field": "Schooling", "type": "quantitative"},
+          {"field": "continent", "type": "nominal"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11.5,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "text": {"field": "Country", "type": "nominal"},
+        "color": {"value": "black"},
+        "opacity": {
+          "condition": {
+            "test": "datum['Country'] == 'China' || datum['Country'] == 'Singapore' || datum['Country'] == 'Australia' || datum['Country'] == 'New Zealand' || datum['Country'] == 'Italy' || datum['Country'] == 'Yemen' ||  datum['Country'] == 'United States'",
+            "value": 1
+          },
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Country", "type": "nominal", "title": "Country"},
+          {"field": "BMI", "type": "quantitative"},
+          {"field": "Schooling", "type": "quantitative"},
+          {"field": "continent", "type": "nominal"}
+        ]
+      }
+    }
+  ],
+  "config": {}
+}

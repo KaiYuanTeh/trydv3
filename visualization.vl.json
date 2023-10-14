@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with embedded data.",
+  "width": 500,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/KaiYuanTeh/DataVisualisation2/main/Data/Life%20expectancy%20continent.csv"
+  },
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "continent",
+          "type": "nominal",
+          "axis": {"labelAngle": 0}
+        },
+        "y": {
+          "field": "Average life expectancy",
+          "type": "quantitative",
+          "title": "Average Life Expectancy"
+        },
+        "color": {"field": "continent", "type": "nominal"},
+        "tooltip": [
+          {"field": "continent", "type": "nominal", "title": "Continent"},
+          {
+            "field": "Average life expectancy",
+            "type": "quantitative",
+            "format": ".2f"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {}
+}

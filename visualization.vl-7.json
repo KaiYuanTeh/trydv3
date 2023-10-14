@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/KaiYuanTeh/DataVisualisation2/main/Data/Total%20expenditure%202000%20and%202014.csv"
+  },
+  "width": 450,
+  "height": 400,
+  "transform": [
+    {
+      "filter": {
+        "field": "Country",
+        "oneOf": [
+          "Japan",
+          "Sweden",
+          "Iceland",
+          "Switzerland",
+          "France",
+          "Malawi",
+          "Angola",
+          "Lesotho",
+          "Central African Republic",
+          "Sierra Leone"
+        ]
+      }
+    },
+    {"filter": {"field": "Year", "oneOf": [2000, 2014]}}
+  ],
+  "encoding": {
+    "x": {
+      "field": "Total expenditure",
+      "type": "quantitative",
+      "title": "Total expenditure (%)"
+    },
+    "y": {
+      "field": "Country",
+      "type": "nominal",
+      "title": "Country",
+      "axis": {"offset": 5, "ticks": false, "minExtent": 70, "domain": false}
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal", "title": "Country"},
+      {"field": "Year", "type": "ordinal", "title": "Year"},
+      {
+        "field": "Total expenditure",
+        "type": "quantitative",
+        "format": ".2f",
+        "title": "Total expenditure (%)"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": "line",
+      "encoding": {
+        "detail": {"field": "Country", "type": "nominal"},
+        "color": {"value": "#db646f"}
+      }
+    },
+    {
+      "mark": {"type": "point", "filled": true},
+      "params": [
+        {
+          "name": "Year_highlight",
+          "select": {"type": "point", "fields": ["Year"]},
+          "bind": "legend"
+        }
+      ],
+      "encoding": {
+        "color": {
+          "field": "Year",
+          "type": "ordinal",
+          "scale": {"domain": [2000, 2014], "range": ["#3690c0", "#fd8d3c"]},
+          "title": "Year"
+        },
+        "size": {"value": 100},
+        "opacity": {
+          "condition": {"param": "Year_highlight", "value": 0.6},
+          "value": 0.2
+        }
+      }
+    },
+    {
+      "mark": {"type": "text", "yOffset": -10},
+      "encoding": {
+        "text": {"field": "Total expenditure", "type": "quantitative"},
+        "color": {
+          "condition": {"test": "datum.Year == 2000", "value": "#3690c0"},
+          "value": "#fd8d3c"
+        }
+      }
+    }
+  ],
+  "config": {}
+}

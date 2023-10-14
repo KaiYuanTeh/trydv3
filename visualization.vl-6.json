@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/KaiYuanTeh/DataVisualisation2/main/Data/Hepatitis%20B.csv"
+  },
+  "width": 550,
+  "height": 450,
+  "encoding": {
+    "y": {"field": "Country", "type": "nominal"},
+    "x": {"field": "Year", "type": "ordinal"}
+  },
+  "layer": [
+    {
+      "mark": "rect",
+      "encoding": {
+        "color": {
+          "field": "Hepatitis B",
+          "type": "quantitative",
+          "title": ["Hepatitis B", "immunization", "coverage (%)"],
+          "legend": {"direction": "horizontal", "gradientLength": 120}
+        }
+      }
+    },
+    {
+      "mark": "text",
+      "encoding": {
+        "text": {"field": "Hepatitis B", "type": "quantitative"},
+        "color": {
+          "condition": {"test": "datum['Hepatitis B'] < 40", "value": "Black"},
+          "value": "White"
+        }
+      }
+    }
+  ],
+  "config": {"axis": {"grid": true, "tickBand": "extent"}}
+}
